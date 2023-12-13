@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center" style="height: 100vh;">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <form class="needs-validation" [formGroup]="formLogin" novalidate>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingUsername" formControlName="name" required 
+                            [ngClass]="formLogin.get('name')?.invalid && formLogin.get('name')?.touched ? 'is-invalid' : ''">
+                            <label for="floatingUsername">Usuário</label>
+                            <div class="invalid-feedback" *ngIf="formLogin.get('name')?.invalid && formLogin.get('name')?.touched">
+                                Nome de usuário é obrigatóriao.
+                            </div>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingPassword" formControlName="password" required 
+                            [ngClass]="formLogin.get('password')?.invalid && formLogin.get('password')?.touched ? 'is-invalid' : ''">
+                            <label for="floatingPassword">Senha</label>
+                            <div class="invalid-feedback">
+                                Senha é obrigatória.
+                            </div>
+                        </div>
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary w-100 py-2" (click)="logar()">Entrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

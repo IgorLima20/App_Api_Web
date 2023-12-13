@@ -1,0 +1,14 @@
+<p>
+    <mat-toolbar color="primary">
+        <span>API Angular</span>
+        <span class="espacamento-toolbar"></span>
+        <button mat-button routerLink="categories">Categorias</button>
+        <button mat-icon-button (click)="logout()">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </mat-toolbar>
+</p>
+
+<mat-card-content>
+    <router-outlet></router-outlet>
+</mat-card-content>
