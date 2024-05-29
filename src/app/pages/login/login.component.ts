@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'src/app/interfaces/User';
 import { UserService } from 'src/app/services/user/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +14,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
-    private snackBar: MatSnackBar
+    private userService: UserService
   ) { }
 
   ngOnInit(): void {
@@ -35,10 +34,10 @@ export class LoginComponent implements OnInit {
     this.userService.login(usuario).subscribe({
       error: (error) => {
         if (error.status !== 200) {
-          this.snackBar.open('Falha na autenticação', 'Usuário ou senha incorretos.', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
+          Swal.fire({
+            title: "Falha na autenticação!",
+            text: "Usuário ou senha incorretos.",
+            icon: "error"
           });
         }
       }

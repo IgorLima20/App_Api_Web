@@ -1,0 +1,20 @@
+<div class="modal-header">
+    <h1 class="modal-title fs-5">{{ title }}</h1>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modalService.close(false)"></button>
+</div>
+<div class="modal-body">
+    <form (ngSubmit)="submit()" [formGroup]="categorieForm" #formDir="ngForm">
+        <input type="hidden" formControlName="id">
+        <div class="mb-3">
+            <label for="category" class="form-label">Categoria</label>
+            <input type="text" class="form-control" formControlName="category" placeholder="Categoria...">
+            <div *ngIf="category.invalid && formDir.submitted" class="validation-error">
+                <p *ngIf="category.errors?.['required']">A Categoria é obrigatória.</p>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-success" (click)="submit()">Salvar</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modalService.close(false)">Cancelar</button>
+</div>

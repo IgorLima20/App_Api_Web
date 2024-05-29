@@ -30,11 +30,10 @@ export class TokenInterceptor implements HttpInterceptor {
           if (error instanceof HttpErrorResponse && error.status === 401) {
             this.userService.logout();
           }
-            return throwError(error.message || 'Erro desconhecido');
+          throw error;
         })
       );
-    }
-    else {
+    } else {
       return next.handle(request);
     }
   }

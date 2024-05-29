@@ -5,27 +5,31 @@ import {
   HttpEvent,
   HttpInterceptor
 } from '@angular/common/http';
-import { Observable, finalize } from 'rxjs';
+import { Observable, catchError, finalize, throwError } from 'rxjs';
 import { LoadingService } from '../loading/loading.service';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
   requests: HttpRequest<any>[] = [];
 
-  constructor(private loadingService: LoadingService) {}
+  constructor(private loadingService: LoadingService) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.requests.push(request);
     this.loadingService.loadingEvent(this.isLoading());
     return next.handle(request).pipe(
       finalize(() => {
-        const index = this.requests.indexOf(request);
-        if (index !== -1) {
-          this.requests.splice(index, 1);
-        }
-        this.loadingService.loadingEvent(this.isLoading());
+        this.finalizeRequest(request);
       })
     );
+  }
+
+  finalizeRequest(req: HttpRequest<any>) {
+    const index = this.requests.indexOf(req);
+    if (index !== -1) {
+      this.requests.splice(index, 1);
+    }
+    this.loadingService.loadingEvent(this.isLoading());
   }
 
   isLoading(): boolean {

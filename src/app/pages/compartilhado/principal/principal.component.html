@@ -1,14 +1,21 @@
-<p>
-    <mat-toolbar color="primary">
-        <span>API Angular</span>
-        <span class="espacamento-toolbar"></span>
-        <button mat-button routerLink="categories">Categorias</button>
-        <button mat-icon-button (click)="logout()">
-            <mat-icon>logout</mat-icon>
-        </button>
-    </mat-toolbar>
-</p>
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">API Rest</a>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" routerLink="categories">Categorias</a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a (click)="logout()" class="btn text-black">
+                    <i class="bi bi-door-open" style="font-size: 26px;"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
 
-<mat-card-content>
+<div class="container">
     <router-outlet></router-outlet>
-</mat-card-content>
+</div>

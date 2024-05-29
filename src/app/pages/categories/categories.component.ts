@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { CategorieCadComponent } from 'src/app/components/categorie-cad/categorie-cad.component';
 import { CategoryData } from 'src/app/interfaces/CategoryData';
 import { CategoryService } from 'src/app/services/category/category.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-categories',
@@ -10,13 +12,18 @@ import { CategoryService } from 'src/app/services/category/category.service';
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  columns: string[] = ['#', 'Categoria'];
+
+  modalService = inject(NgbModal);
+
+  columns: string[] = ['#', 'Categoria', ''];
   categories: CategoryData[] = [];
 
   constructor(private categoryService: CategoryService, private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.carregaCategorias();
+    setTimeout(() => {
+      this.carregaCategorias();
+    })
   }
 
   carregaCategorias() {
@@ -26,12 +33,72 @@ export class CategoriesComponent implements OnInit {
       },
       error: (error) => {
         if (error.status !== 200) {
-          this.snackBar.open('Falha no carregamento', 'Não foi possível carregar as categorias.', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
+          Swal.fire({
+            title: "Falha no carregamento!",
+            text: "Não foi possível carregar as categorias.",
+            icon: "error"
           });
         }
+      }
+    });
+  }
+
+  create() {
+    const modalRef = this.modalService.open(CategorieCadComponent)
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          this.carregaCategorias();
+        }
+      },
+    );
+    modalRef.componentInstance.title = 'Criar Categoria';
+  }
+
+  edit(category: CategoryData) {
+    const modalRef = this.modalService.open(CategorieCadComponent)
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          this.carregaCategorias();
+        }
+      },
+    );
+    modalRef.componentInstance.title = 'Editar Categoria';
+    modalRef.componentInstance.categoryData = category;
+  }
+
+  delete(id: number) {
+    Swal.fire({
+      title: "Deseja realmente excluir essa categoria?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Excluir",
+      cancelButtonText: "Cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoryService.delete(id).subscribe({
+          next: (next: any) => {
+            Swal.fire({
+              title: "Sucesso!",
+              text: "Categoria exclúida com sucesso.",
+              icon: "success"
+            });
+            this.carregaCategorias();
+          },
+          error: (error: any) => {
+            console.log(error);
+            if (error.status !== 200) {
+              Swal.fire({
+                title: "Falha na exclusão!",
+                text: error.error.error,
+                icon: "error"
+              });
+            }
+          }
+        });
       }
     });
   }

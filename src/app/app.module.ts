@@ -22,6 +22,8 @@ import { PrincipalComponent } from './pages/compartilhado/principal/principal.co
 import { TokenInterceptor } from './services/interceptors/token.interceptor';
 import { LoadingInterceptor } from './services/interceptors/loading.interceptor';
 import { CategoriesComponent } from './pages/categories/categories.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CategorieCadComponent } from './components/categorie-cad/categorie-cad.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { CategoriesComponent } from './pages/categories/categories.component';
     LoginComponent,
     HomeComponent,
     PrincipalComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    CategorieCadComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { CategoriesComponent } from './pages/categories/categories.component';
     MatToolbarModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    MatTableModule
+    MatTableModule,
+    NgbModule,
   ],
   providers: [
   {
