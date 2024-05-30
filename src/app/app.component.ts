@@ -11,8 +11,7 @@ export class AppComponent {
   title = 'app-apiangular';
   loading: Observable<boolean>;
 
-  constructor(@Inject('URL_API') public urlApi: string,
-               private loadingService: LoadingService) { 
+  constructor(private loadingService: LoadingService) { 
     this.loading = this.loadingService.loadingObservable();
   }
 

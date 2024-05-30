@@ -1,20 +1,14 @@
-FROM node:20
+FROM node:20 as node
 
-RUN npm install -g @angular/cli
+ENV PROJECT_HOME /usr/src/appweb
 
-WORKDIR /
-RUN mkdir angular-app
-WORKDIR /angular-app
+WORKDIR $PROJECT_HOME
 
-ENV APP_NAME 'my-app'
-ENV ROUTING 'true'
-ENV STANDALONE 'false'
-ENV STRICT 'true'
-ENV STYLE 'scss'
+COPY . .
 
-CMD ng new $APP_NAME --routing=$ROUTING --standalone=$STANDALONE --strict=$STRICT --style=$STYLE \
-    && mv $APP_NAME/* . \
-    && rm -rf $APP_NAME \
-    && ng serve --host 0.0.0.0 --port 4200
+RUN npm install
+RUN npm install @angular/cli -g
 
 EXPOSE 4200
+
+CMD ["ng", "serve", "--host", "0.0.0.0"]
