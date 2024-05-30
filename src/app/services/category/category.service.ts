@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError } from 'rxjs';
 import { CategoryData } from 'src/app/interfaces/CategoryData';
 import { environment } from 'src/environments/environment';
+import { PageAll } from 'src/app/interfaces/PageAll';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class CategoryService {
 
   getData(): Observable<CategoryData[]> {
     return this.http.get<CategoryData[]>(`${this.baseApiUrl}/categoria`);
+  }
+
+  getDataPage(page: number, size: number): Observable<PageAll<CategoryData>> {
+    return this.http.get<PageAll<CategoryData>>(`${this.baseApiUrl}/categoria/page?page=${page - 1}&size=${size}`);
   }
 
   create(category: CategoryData): Observable<CategoryData> {

@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 import { CategorieCadComponent } from 'src/app/components/categorie-cad/categorie-cad.component';
 import { CategoryData } from 'src/app/interfaces/CategoryData';
 import { CategoryService } from 'src/app/services/category/category.service';
@@ -12,13 +13,16 @@ import Swal from 'sweetalert2';
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
+  page = 0;
+	pageSize = 4;
+  collectionSize = 0;
 
   modalService = inject(NgbModal);
 
   columns: string[] = ['#', 'Categoria', ''];
   categories: CategoryData[] = [];
 
-  constructor(private categoryService: CategoryService, private snackBar: MatSnackBar) { }
+  constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
     setTimeout(() => {
@@ -27,9 +31,13 @@ export class CategoriesComponent implements OnInit {
   }
 
   carregaCategorias() {
-    this.categoryService.getData().subscribe({
-      next: (next) => {
-        this.categories = next;
+    console.log(this.page);
+    console.log(this.pageSize);
+    this.categoryService.getDataPage(this.page, this.pageSize).subscribe({
+      next: (result) => {
+        console.log(result);
+        this.categories = result.content;
+        this.collectionSize = result.totalElements;
       },
       error: (error) => {
         if (error.status !== 200) {
@@ -80,7 +88,7 @@ export class CategoriesComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.categoryService.delete(id).subscribe({
-          next: (next: any) => {
+          next: () => {
             Swal.fire({
               title: "Sucesso!",
               text: "Categoria exclúida com sucesso.",

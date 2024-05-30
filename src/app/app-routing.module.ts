@@ -6,9 +6,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { UserNotAuthenticatedGuard } from './services/guards/user-not-authenticated.guard';
 import { UserAuthenticatedGuard } from './services/guards/user-authenticated.guard';
 import { CategoriesComponent } from './pages/categories/categories.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [UserNotAuthenticatedGuard]},
+  {path: 'register', component: RegisterComponent, canActivate: [UserNotAuthenticatedGuard]},
   {
     path: '', component: PrincipalComponent, canActivate: [UserAuthenticatedGuard],
     children: [

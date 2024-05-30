@@ -24,6 +24,7 @@ import { LoadingInterceptor } from './services/interceptors/loading.interceptor'
 import { CategoriesComponent } from './pages/categories/categories.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CategorieCadComponent } from './components/categorie-cad/categorie-cad.component';
+import { RegisterComponent } from './pages/register/register.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CategorieCadComponent } from './components/categorie-cad/categorie-cad.
     HomeComponent,
     PrincipalComponent,
     CategoriesComponent,
-    CategorieCadComponent
+    CategorieCadComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
